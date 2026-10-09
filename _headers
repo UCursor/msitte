@@ -12,3 +12,19 @@
 /images/*
   Cache-Control: public, max-age=2592000
 
+/skills
+  Access-Control-Allow-Origin: *
+  Link: </Skills.md>; rel="alternate"; type="text/markdown"
+
+/Skills.md
+  Access-Control-Allow-Origin: *
+  Content-Type: text/markdown; charset=utf-8
+
+/skills.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
+/llms.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
