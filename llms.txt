@@ -6,3 +6,4 @@
 - [/skills](https://msitte.pages.dev/skills): Full combined skills registry and webh.md negative design guardrails for Cursor, Claude Code, and AI models.
 - [/Skills.md](https://msitte.pages.dev/Skills.md): Raw initiation markdown loader and skill registry.
 - [/developers/docs/introduction.html](https://msitte.pages.dev/developers/docs/introduction.html): Complete documentation on AI signs, $initiation workflow, and webh rules.
+

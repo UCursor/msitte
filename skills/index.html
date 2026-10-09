@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills Registry & Guardrails - msitte / laucn</title>
 
-    <meta name="description" content="Direct skills reference and negative design guardrails for AI coding agents. Syncs live with github.com/ucursor/msitte.">
+    <meta name="description" content="Direct skills reference and negative design guardrails for AI coding agents. Maintained at github.com/ucursor/msitte.">
     <meta name="keywords" content="msitte skills, laucn skills, cursor skills, claude code skills, webh guardrails, initiation, AI coding instructions">
     <meta name="author" content="msitte">
     <meta name="robots" content="index, follow">
@@ -15,12 +15,12 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://msitte.pages.dev/skills">
     <meta property="og:title" content="Skills Registry & Guardrails - msitte / laucn">
-    <meta property="og:description" content="Full skills reference and negative design guardrails for AI coding agents. Live synced with GitHub.">
+    <meta property="og:description" content="Full skills reference and negative design guardrails for AI coding agents.">
     <meta property="og:image" content="https://msitte.pages.dev/images/m.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Skills Registry & Guardrails - msitte / laucn">
-    <meta name="twitter:description" content="Full skills reference and negative design guardrails for AI coding agents. Live synced with GitHub.">
+    <meta name="twitter:description" content="Full skills reference and negative design guardrails for AI coding agents.">
     <meta name="twitter:image" content="https://msitte.pages.dev/images/m.png">
 
     <link rel="alternate" type="text/markdown" href="/Skills.md" title="Raw Skills Markdown">
@@ -44,42 +44,6 @@
 
         .skills-header {
             margin-bottom: 2.5rem;
-        }
-
-        .skills-status-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 1.25rem;
-        }
-
-        .skills-live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px;
-            background: #161619;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 999px;
-            font-size: 0.76rem;
-            font-family: 'Google Sans Code', monospace;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #00f59b;
-            box-shadow: 0 0 8px rgba(0, 245, 155, 0.6);
-            display: inline-block;
-        }
-
-        .live-dot.syncing {
-            background: #facc15;
-            box-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
         }
 
         .skills-title {
@@ -262,14 +226,6 @@
 
     <main class="skills-page">
         <header class="skills-header">
-            <div class="skills-status-row">
-                <div class="skills-live-badge">
-                    <span class="live-dot" id="liveDotIndicator"></span>
-                    <span id="syncStatusLabel">Live • Synced with GitHub main</span>
-                </div>
-                <div class="skills-file-path" id="versionBadge">version 1.0.1 beta</div>
-            </div>
-
             <h1 class="skills-title">Skills Registry & Guardrails</h1>
             <p class="skills-subtitle">
                 Complete instructions for Cursor, Claude Code, Copilot, and LLMs. Includes the universal initiation command, agent loader, and the complete webh.md negative design constraints.
@@ -737,8 +693,6 @@ Before finishing every task and before declaring the project complete:
         const copyToast = document.getElementById('copyToast');
         const copyToastMsg = document.getElementById('copyToastMsg');
         const tabs = document.querySelectorAll('.skills-tab');
-        const liveDot = document.getElementById('liveDotIndicator');
-        const syncStatusLabel = document.getElementById('syncStatusLabel');
 
         function showToast(message) {
             if (!copyToast) return;
@@ -807,9 +761,6 @@ Before finishing every task and before declaring the project complete:
         }
 
         async function fetchLiveSkillsFromGitHub() {
-            if (liveDot) liveDot.classList.add('syncing');
-            if (syncStatusLabel) syncStatusLabel.textContent = 'Syncing with GitHub...';
-
             try {
                 const [skillsRes, webhRes] = await Promise.all([
                     fetch('https://raw.githubusercontent.com/UCursor/msitte/main/Skills.md'),
@@ -824,21 +775,9 @@ Before finishing every task and before declaring the project complete:
                     if (webhText.trim()) webhMdContent = webhText.trim();
 
                     updateDisplay();
-
-                    if (liveDot) {
-                        liveDot.classList.remove('syncing');
-                        liveDot.style.background = '#00f59b';
-                    }
-                    if (syncStatusLabel) {
-                        syncStatusLabel.textContent = 'Live • Synced with GitHub main';
-                    }
-                    return;
                 }
             } catch (e) {
             }
-
-            if (liveDot) liveDot.classList.remove('syncing');
-            if (syncStatusLabel) syncStatusLabel.textContent = 'Bundled • Version 1.0.1 beta';
         }
 
         fetchLiveSkillsFromGitHub();

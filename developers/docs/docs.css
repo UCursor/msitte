@@ -725,15 +725,6 @@ body {
     letter-spacing: -0.01em;
 }
 
-.search-result-badge {
-    font-family: 'Google Sans Code', monospace;
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.45);
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3px 8px;
-    border-radius: 4px;
-}
-
 .search-modal-footer {
     padding: 10px 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);

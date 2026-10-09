@@ -212,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="search-result-url">${item.displayUrl}</div>
                     </div>
                 </div>
-                <span class="search-result-badge">${item.category}</span>
             </a>
         `).join('');
 
