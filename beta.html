@@ -28,55 +28,344 @@
     <meta name="twitter:image" content="images/m.png">
 
     <link href="style.css" rel="stylesheet">
-    <link href="beta.css" rel="stylesheet">
+    <link href="beta.css?v=5" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Immediate Critical Inline CSS */
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #6176FF;
+            color: #FFFFFF;
+            font-family: 'Google Sans Code', 'Consolas', 'Courier New', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .beta-bg-svg {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+            display: block !important;
+        }
+
+        .beta-page-wrapper {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .beta-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 2.5rem 0 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .betaLogoLink {
+            display: flex;
+            align-items: center;
+            opacity: 0.9;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .betaLogoLink:hover {
+            opacity: 1;
+            transform: scale(1.06);
+        }
+
+        .betaLogoImg {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .betaMidNav {
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            font-family: 'Inter', -apple-system, sans-serif;
+            flex-shrink: 0;
+        }
+
+        .betaNavLink {
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 0.92rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.15s ease, transform 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .betaNavLink:hover {
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .betaSearchBtn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            cursor: pointer;
+            backdrop-filter: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .betaSearchBtn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        .betaSearchBtn kbd {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: 0.72rem;
+            margin-left: 4px;
+        }
+
+        .beta-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.2rem 1.5rem 3rem 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .beta-hero {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .beta-title {
+            font-family: 'Google Sans Code', 'Consolas', monospace;
+            font-size: clamp(1.45rem, 3.8vw, 2.75rem);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .beta-subtitle {
+            font-family: 'Google Sans Code', 'Consolas', monospace;
+            font-size: clamp(0.85rem, 1.8vw, 1.28rem);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.45;
+            word-break: break-word;
+        }
+
+        .beta-note {
+            font-family: 'Google Sans Code', 'Consolas', monospace;
+            font-size: clamp(0.78rem, 1.4vw, 1.02rem);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .beta-video-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .beta-video-container:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+
+        .tutorial-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            display: none;
+            background: transparent;
+        }
+
+        .tutorial-video.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .beta-navbar {
+                padding: 0.85rem 1.25rem 0 1.25rem;
+            }
+            .betaMidNav {
+                gap: 0.85rem;
+            }
+            .betaNavLink {
+                font-size: 0.84rem;
+            }
+            .betaSearchBtn {
+                padding: 4px 7px;
+            }
+            .navSearchLabel, .betaSearchBtn kbd {
+                display: none;
+            }
+            .beta-main {
+                padding: 1.5rem 1.25rem 2.5rem 1.25rem;
+            }
+            .beta-hero {
+                margin-bottom: 1.25rem;
+            }
+            .beta-video-container {
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .betaMidNav .betaNavLink[href="/"] {
+                display: none;
+            }
+            .betaMidNav {
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .beta-navbar {
+                padding: 0.75rem 1rem 0 1rem;
+            }
+            .betaMidNav {
+                gap: 0.6rem;
+            }
+            .betaNavLink {
+                font-size: 0.8rem;
+            }
+            .betaLogoImg {
+                width: 24px;
+                height: 24px;
+            }
+            .beta-main {
+                padding: 1.2rem 1rem 2rem 1rem;
+            }
+            .betaSearchBtn {
+                padding: 3px 6px;
+            }
+            .betaSearchBtn .material-symbols-outlined {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .beta-navbar {
+                padding: 0.5rem 0.75rem 0 0.75rem;
+            }
+            .betaMidNav {
+                gap: 0.45rem;
+            }
+            .betaNavLink {
+                font-size: 0.75rem;
+            }
+            .beta-main {
+                padding: 1rem 0.75rem 1.5rem 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body class="beta-body">
-    <!-- Highest Quality Scalable Vector Background -->
-    <svg class="beta-bg-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- Vector Looping Ribbon Background: Fixed & Behind Content -->
+    <svg class="beta-bg-svg" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; display: block;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <!-- Upper gentle wave -->
-        <path d="M -20,120 C 120,90 240,95 360,118 C 480,140 600,190 720,215 C 840,240 920,225 1044,165" fill="none" stroke="#536AFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M -20,120 C 120,90 240,95 360,118 C 480,140 600,190 720,215 C 840,240 920,225 1044,165" fill="none" stroke="#536AFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
         <!-- Continuous looping ribbon -->
-        <path d="M -20,515 C 150,485 300,445 405,395 C 430,360 455,290 500,255 C 540,225 640,220 685,255 C 715,280 705,305 660,325 C 595,355 490,380 435,395 C 390,405 440,425 535,428 C 630,428 735,410 840,380 C 930,355 980,335 1044,320" fill="none" stroke="#536AFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M -20,515 C 150,485 300,445 405,395 C 430,360 455,290 500,255 C 540,225 640,220 685,255 C 715,280 705,305 660,325 C 595,355 490,380 435,395 C 390,405 440,425 535,428 C 630,428 735,410 840,380 C 930,355 980,335 1044,320" fill="none" stroke="#536AFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
 
-    <!-- Standard msitte Navigation Bar -->
-    <div class="navbar beta-navbar-override">
-        <a href="/" class="companyLogoLink" title="msitte" aria-label="msitte home">
-            <img src="images/m.png" alt="msitte logo" class="companyLogoImg">
-        </a>
-        <div class="midNav">
-            <a class="navLink" href="developers/docs/introduction.html">Docs</a>
-            <a class="navLink" href="https://discord.gg/5KctFJj9Qk" target="_blank" rel="noopener noreferrer">Community</a>
-            <a class="navLink" href="https://github.com/ucursor/msitte" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <button type="button" class="navSearchBtn" id="searchTriggerBtn" aria-label="Search website and docs">
-                <span class="material-symbols-outlined">search</span>
-                <span class="navSearchLabel">Search</span>
-                <kbd>⇧ / ⌘ F</kbd>
-            </button>
-        </div>
+    <!-- Page Wrapper -->
+    <div class="beta-page-wrapper">
+        <!-- Top Navbar -->
+        <header class="beta-header">
+            <nav class="beta-navbar" aria-label="Main Navigation">
+                <a href="/" class="betaLogoLink" title="msitte" aria-label="msitte home">
+                    <img src="images/m.png" alt="msitte logo" class="betaLogoImg">
+                </a>
+
+                <div class="betaMidNav">
+                    <a class="betaNavLink" href="/">Home</a>
+                    <a class="betaNavLink" href="developers/docs/introduction.html">Docs</a>
+                    <a class="betaNavLink" href="https://discord.gg/5KctFJj9Qk" target="_blank" rel="noopener noreferrer">Community</a>
+                    <a class="betaNavLink" href="https://github.com/ucursor/msitte" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <button type="button" class="betaSearchBtn" id="searchTriggerBtn" aria-label="Search website and docs">
+                        <span class="material-symbols-outlined">search</span>
+                        <span class="navSearchLabel">Search</span>
+                        <kbd>⇧ / ⌘ F</kbd>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content Section -->
+        <main class="beta-main">
+            <section class="beta-hero">
+                <h1 class="beta-title">since msitte is beta,</h1>
+                <p class="beta-subtitle">you can join us, test it for free and provide feedback.</p>
+                <p class="beta-note">here is a quick tutorial to use msitte</p>
+            </section>
+
+            <!-- Empty Video Placeholder with Small Outline -->
+            <section class="beta-video-container" aria-label="Tutorial Video Player">
+                <video id="betaTutorialVideo" class="tutorial-video" controls playsinline preload="metadata">
+                    <!-- Drop your video source here when ready: -->
+                    <!-- <source src="tutorial.mp4" type="video/mp4"> -->
+                    Your browser does not support the video tag.
+                </video>
+            </section>
+        </main>
     </div>
-
-    <!-- Main Content -->
-    <main class="beta-main">
-        <section class="beta-hero">
-            <h1 class="beta-title">since msitte is beta,</h1>
-            <p class="beta-subtitle">you can join us, test it for free and provide feedback.</p>
-            <p class="beta-note">here is a quick tutorial to use msitte</p>
-        </section>
-
-        <!-- Empty Video Placeholder with Small Outline -->
-        <section class="video-placeholder-container" aria-label="Tutorial Video Player">
-            <video id="betaTutorialVideo" class="tutorial-video" controls playsinline preload="metadata">
-                <!-- Drop your video source here when ready: -->
-                <!-- <source src="tutorial.mp4" type="video/mp4"> -->
-                Your browser does not support the video tag.
-            </video>
-        </section>
-    </main>
 
     <!-- Site-wide Search Modal -->
     <div id="searchModal" class="search-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search msitte and laucn">

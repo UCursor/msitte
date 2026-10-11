@@ -1,6 +1,8 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576" width="100%" height="100%" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <!-- Background base color matching exact reference -->
+  <rect width="100%" height="100%" fill="#6176FF"/>
   <!-- Upper gentle wave -->
-  <path d="M -20,120 C 120,90 240,95 360,118 C 480,140 600,190 720,215 C 840,240 920,225 1044,165" fill="none" stroke="#536AFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -20,120 C 120,90 240,95 360,118 C 480,140 600,190 720,215 C 840,240 920,225 1044,165" fill="none" stroke="#536AFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- Continuous ribbon loop -->
-  <path d="M -20,515 C 150,485 300,445 405,395 C 430,360 455,290 500,255 C 540,225 640,220 685,255 C 715,280 705,305 660,325 C 595,355 490,380 435,395 C 390,405 440,425 535,428 C 630,428 735,410 840,380 C 930,355 980,335 1044,320" fill="none" stroke="#536AFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M -20,515 C 150,485 300,445 405,395 C 430,360 455,290 500,255 C 540,225 640,220 685,255 C 715,280 705,305 660,325 C 595,355 490,380 435,395 C 390,405 440,425 535,428 C 630,428 735,410 840,380 C 930,355 980,335 1044,320" fill="none" stroke="#536AFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
