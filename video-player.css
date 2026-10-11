@@ -1,0 +1,642 @@
+/* ==========================================================================
+   msitte Custom Video Player - Smooth Sizing Animation & YouTube-Style Controls
+   ========================================================================== */
+
+.msitte-player-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem auto 3rem auto;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 1rem;
+}
+
+/* Container for the video player */
+.msitte-player-container {
+    position: relative;
+    width: 100%;
+    /* Small initial size */
+    max-width: 500px;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    /* Smooth physical animation when sizing changes */
+    transition: max-width 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease;
+}
+
+/* Hover effect on small player */
+.msitte-player-container.is-small:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, 0.65), 0 0 25px rgba(255, 255, 255, 0.08);
+}
+
+/* Expanded (Bigger) State */
+.msitte-player-container.is-expanded {
+    max-width: 880px;
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75), 0 0 50px rgba(0, 0, 0, 0.5);
+    transform: translateY(0);
+}
+
+/* Video element */
+.msitte-video-element {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background-color: #000000;
+    border-radius: 13px;
+    pointer-events: auto;
+}
+
+/* Center Big Play Button Overlay */
+.center-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: rgba(18, 18, 22, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 15;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.2s ease,
+                border-color 0.2s ease,
+                opacity 0.25s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+.center-play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.12);
+    background: rgba(255, 0, 51, 0.9);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 12px 30px rgba(255, 0, 51, 0.45);
+}
+
+.center-play-btn .material-symbols-outlined {
+    font-size: 34px;
+    margin-left: 3px; /* visual center for triangle */
+}
+
+/* Hide center play button when playing */
+.msitte-player-container.is-playing .center-play-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.85);
+}
+
+/* Floating Size Badge / Pill (Visible in small mode) */
+.player-size-pill {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(0, 0, 0, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 16;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.player-size-pill:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.45);
+    transform: scale(1.05);
+}
+
+.player-size-pill .material-symbols-outlined {
+    font-size: 15px;
+}
+
+.msitte-player-container.is-expanded .player-size-pill,
+.msitte-player-container.is-playing .player-size-pill {
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+}
+
+/* Double Click / Tap Skip Feedback Ripples (YouTube style) */
+.skip-feedback {
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    width: 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 14;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.skip-feedback-left {
+    left: 0;
+    border-radius: 14px 0 0 0;
+}
+
+.skip-feedback-right {
+    right: 0;
+    border-radius: 0 14px 0 0;
+}
+
+.skip-ripple {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 50px;
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #ffffff;
+    transform: scale(0.7);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.skip-ripple .skip-icon {
+    font-size: 28px;
+}
+
+.skip-ripple .skip-text {
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.skip-feedback.active {
+    opacity: 1;
+}
+
+.skip-feedback.active .skip-ripple {
+    transform: scale(1);
+    animation: skipPulse 0.5s ease-out;
+}
+
+@keyframes skipPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Controls Overlay */
+.player-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+    padding: 0 14px 10px 14px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 1;
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    cursor: default;
+}
+
+/* Autohide controls when playing and idle */
+.msitte-player-container.is-idle.is-playing .player-controls {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+}
+
+.msitte-player-container.is-idle.is-playing {
+    cursor: none;
+}
+
+/* Timeline Container */
+.timeline-container {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    touch-action: none;
+}
+
+.timeline-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    transition: height 0.15s ease;
+    overflow: visible;
+}
+
+.timeline-container:hover .timeline-track,
+.timeline-container.is-dragging .timeline-track {
+    height: 7px;
+}
+
+/* Timeline Buffering */
+.timeline-buffer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: rgba(255, 255, 255, 0.42);
+    border-radius: 4px;
+    pointer-events: none;
+    transition: width 0.2s ease;
+}
+
+/* Timeline Played Progress (YouTube Red) */
+.timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #ff0033;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Scrubber Thumb */
+.timeline-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 13px;
+    height: 13px;
+    background: #ff0033;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: transform 0.15s ease;
+}
+
+.timeline-container:hover .timeline-thumb,
+.timeline-container.is-dragging .timeline-thumb {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Hover Time Tooltip */
+.timeline-hover-time {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    transform: translateX(-50%);
+    background: rgba(18, 18, 22, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.73rem;
+    font-weight: 500;
+    padding: 3px 7px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 25;
+}
+
+.timeline-container:hover .timeline-hover-time {
+    opacity: 1;
+}
+
+/* Bottom Controls Bar */
+.controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.controls-left,
+.controls-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Control Buttons */
+.ctrl-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.88);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.12s ease;
+    user-select: none;
+    position: relative;
+}
+
+.ctrl-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+.ctrl-btn:active {
+    transform: scale(0.94);
+}
+
+.ctrl-btn:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.ctrl-btn .material-symbols-outlined {
+    font-size: 22px;
+}
+
+/* Skip 5s Buttons */
+.skip-btn {
+    padding: 4px 6px;
+    gap: 2px;
+}
+
+.skip-btn .material-symbols-outlined {
+    font-size: 21px;
+}
+
+.btn-badge {
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    opacity: 0.85;
+}
+
+/* Volume Slider */
+.volume-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.volume-slider-wrap {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.22s ease, margin-left 0.22s ease;
+    display: flex;
+    align-items: center;
+}
+
+.volume-container:hover .volume-slider-wrap,
+.volume-slider-wrap:focus-within {
+    width: 62px;
+    margin-left: 4px;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 11px;
+    height: 11px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* Time Display */
+.time-display {
+    font-family: 'Google Sans Code', monospace;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.88);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 4px;
+    letter-spacing: -0.01em;
+    user-select: none;
+}
+
+.time-separator {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Size Animation Toggle Button (Small vs Large) */
+.size-toggle-btn .material-symbols-outlined {
+    font-size: 21px;
+    transition: transform 0.25s ease;
+}
+
+.size-toggle-btn:hover .material-symbols-outlined {
+    transform: scale(1.1);
+}
+
+/* Fullscreen Button */
+.fullscreen-btn .material-symbols-outlined {
+    font-size: 22px;
+}
+
+/* Header label above showcase in index.html */
+.video-showcase-header {
+    text-align: center;
+    margin-bottom: 0.85rem;
+}
+
+.video-showcase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+.video-showcase-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00f59b;
+    box-shadow: 0 0 8px #00f59b;
+}
+
+/* Fullscreen Styling */
+.msitte-player-container:fullscreen {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+    border: none;
+}
+
+.msitte-player-container:-webkit-full-screen {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0;
+    border: none;
+}
+
+/* Beta Page Theme Adjustments */
+body.beta-body .video-showcase-badge,
+.beta-page-wrapper .video-showcase-badge {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+}
+
+body.beta-body .msitte-player-container,
+.beta-page-wrapper .msitte-player-container {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: #111425;
+}
+
+body.beta-body .msitte-player-container:hover,
+.beta-page-wrapper .msitte-player-container:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+body.beta-body .msitte-player-container.is-expanded,
+.beta-page-wrapper .msitte-player-container.is-expanded {
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45), 0 0 40px rgba(255, 255, 255, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .msitte-player-wrapper {
+        margin: 1.5rem auto 2.5rem auto;
+        padding: 0 0.5rem;
+    }
+
+    .msitte-player-container {
+        border-radius: 12px;
+    }
+
+    .msitte-player-container.is-expanded {
+        max-width: 100%;
+    }
+
+    .center-play-btn {
+        width: 54px;
+        height: 54px;
+    }
+
+    .center-play-btn .material-symbols-outlined {
+        font-size: 28px;
+    }
+
+    .player-controls {
+        padding: 0 10px 8px 10px;
+    }
+
+    .volume-slider-wrap {
+        display: none !important; /* Hide slider on mobile, tap to mute */
+    }
+
+    .btn-badge {
+        display: none;
+    }
+
+    .skip-btn {
+        padding: 4px;
+    }
+
+    .ctrl-btn {
+        padding: 4px;
+    }
+
+    .time-display {
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-size-pill {
+        display: none;
+    }
+
+    .controls-bar {
+        gap: 6px;
+    }
+
+    .ctrl-btn .material-symbols-outlined {
+        font-size: 19px;
+    }
+
+    .time-display {
+        font-size: 0.68rem;
+        margin-left: 2px;
+    }
+}

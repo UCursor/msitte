@@ -29,6 +29,7 @@
 
     <link href="style.css" rel="stylesheet">
     <link href="beta.css?v=5" rel="stylesheet">
+    <link href="video-player.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -356,14 +357,92 @@
                 <p class="beta-note">here is a quick tutorial to use msitte</p>
             </section>
 
-            <!-- Empty Video Placeholder with Small Outline -->
-            <section class="beta-video-container" aria-label="Tutorial Video Player">
-                <video id="betaTutorialVideo" class="tutorial-video" controls playsinline preload="metadata">
-                    <!-- Drop your video source here when ready: -->
-                    <!-- <source src="tutorial.mp4" type="video/mp4"> -->
-                    Your browser does not support the video tag.
-                </video>
-            </section>
+            <!-- msitte Beta Video Player -->
+            <div class="msitte-player-wrapper">
+                <div class="msitte-player-container is-small" tabindex="0" role="region" aria-label="msitte Beta Tutorial Video Player">
+                    <video class="msitte-video-element" playsinline preload="metadata">
+                        <source src="mainvideo.mp4" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+
+                    <!-- Double Click / Tap Skip Ripples (YouTube style) -->
+                    <div class="skip-feedback skip-feedback-left" aria-hidden="true">
+                        <div class="skip-ripple">
+                            <span class="material-symbols-outlined skip-icon">replay_5</span>
+                            <span class="skip-text">-5s</span>
+                        </div>
+                    </div>
+                    <div class="skip-feedback skip-feedback-right" aria-hidden="true">
+                        <div class="skip-ripple">
+                            <span class="material-symbols-outlined skip-icon">forward_5</span>
+                            <span class="skip-text">+5s</span>
+                        </div>
+                    </div>
+
+                    <!-- Big Center Play Button Overlay -->
+                    <button type="button" class="center-play-btn" aria-label="Play video">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                    </button>
+
+                    <!-- Size Pill Indicator -->
+                    <div class="player-size-pill" title="Click to enlarge or press T">
+                        <span class="material-symbols-outlined">aspect_ratio</span>
+                        <span>Click to enlarge</span>
+                    </div>
+
+                    <!-- Player Controls Overlay -->
+                    <div class="player-controls">
+                        <!-- Timeline / Scrub bar -->
+                        <div class="timeline-container" role="slider" aria-label="Video Timeline" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="timeline-hover-time">0:00</div>
+                            <div class="timeline-track">
+                                <div class="timeline-buffer"></div>
+                                <div class="timeline-progress"></div>
+                                <div class="timeline-thumb"></div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Controls Bar -->
+                        <div class="controls-bar">
+                            <div class="controls-left">
+                                <button type="button" class="ctrl-btn play-pause-btn" aria-label="Play (Space)">
+                                    <span class="material-symbols-outlined">play_arrow</span>
+                                </button>
+                                <button type="button" class="ctrl-btn skip-btn skip-back" aria-label="Rewind 5 seconds (Left Arrow)" title="Rewind 5s">
+                                    <span class="material-symbols-outlined">replay_5</span>
+                                    <span class="btn-badge">-5s</span>
+                                </button>
+                                <button type="button" class="ctrl-btn skip-btn skip-fwd" aria-label="Forward 5 seconds (Right Arrow)" title="Forward 5s">
+                                    <span class="material-symbols-outlined">forward_5</span>
+                                    <span class="btn-badge">+5s</span>
+                                </button>
+                                <div class="volume-container">
+                                    <button type="button" class="ctrl-btn volume-btn" aria-label="Mute (M)">
+                                        <span class="material-symbols-outlined">volume_up</span>
+                                    </button>
+                                    <div class="volume-slider-wrap">
+                                        <input type="range" class="volume-slider" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+                                    </div>
+                                </div>
+                                <div class="time-display">
+                                    <span class="current-time">0:00</span>
+                                    <span class="time-separator">/</span>
+                                    <span class="duration-time">0:21</span>
+                                </div>
+                            </div>
+
+                            <div class="controls-right">
+                                <button type="button" class="ctrl-btn size-toggle-btn" aria-label="Enlarge video (T)" title="Toggle size (T)">
+                                    <span class="material-symbols-outlined">open_in_full</span>
+                                </button>
+                                <button type="button" class="ctrl-btn fullscreen-btn" aria-label="Fullscreen (F)" title="Fullscreen (F)">
+                                    <span class="material-symbols-outlined">fullscreen</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -387,26 +466,6 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Reveal video element when a valid source is attached
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('betaTutorialVideo');
-            if (!video) return;
-
-            function checkSource() {
-                const hasSource = Boolean(
-                    (video.src && video.src !== window.location.href) ||
-                    (video.querySelector('source') && video.querySelector('source').getAttribute('src'))
-                );
-                if (hasSource) {
-                    video.classList.add('active');
-                } else {
-                    video.classList.remove('active');
-                }
-            }
-
-            checkSource();
-        });
-    </script>
+    <script src="video-player.js"></script>
 </body>
 </html>
