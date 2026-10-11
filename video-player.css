@@ -8,23 +8,25 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 2rem auto 3rem auto;
+    margin: 2rem auto 3.5rem auto;
     box-sizing: border-box;
     position: relative;
     padding: 0 1rem;
+    max-width: 100%;
 }
 
-/* Container for the video player */
+/* Container for the video player - Big screen-filling by default */
 .msitte-player-container {
     position: relative;
     width: 100%;
-    /* Small initial size */
-    max-width: 500px;
+    /* Fits most of the screen */
+    max-width: min(94vw, 1200px);
     aspect-ratio: 16 / 9;
+    max-height: 82vh;
     background: #000000;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75), 0 0 50px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     user-select: none;
     outline: none;
@@ -35,21 +37,37 @@
                 box-shadow 0.52s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s ease;
+    animation: playerEntrance 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Hover effect on small player */
+@keyframes playerEntrance {
+    0% {
+        opacity: 0.7;
+        transform: scale(0.97) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Compact mode when toggled */
+.msitte-player-container.is-small {
+    max-width: 540px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
 .msitte-player-container.is-small:hover {
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 22px 46px rgba(0, 0, 0, 0.65), 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
-/* Expanded (Bigger) State */
+/* Expanded State */
 .msitte-player-container.is-expanded {
-    max-width: 880px;
-    border-color: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.75), 0 0 50px rgba(0, 0, 0, 0.5);
-    transform: translateY(0);
+    max-width: min(94vw, 1200px);
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.6);
 }
 
 /* Video element */
@@ -147,6 +165,40 @@
     opacity: 0;
     transform: translateY(-4px);
     pointer-events: none;
+}
+
+/* Floating Click to Unmute Badge (when autoplaying muted) */
+.unmute-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(18, 18, 22, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    z-index: 18;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, opacity 0.25s ease;
+}
+
+.unmute-badge:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.55);
+    transform: scale(1.05);
+}
+
+.unmute-badge .material-symbols-outlined {
+    font-size: 16px;
 }
 
 /* Double Click / Tap Skip Feedback Ripples (YouTube style) */

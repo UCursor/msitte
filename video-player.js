@@ -42,6 +42,7 @@
         const timelineBuffer = container.querySelector('.timeline-buffer');
         const timelineThumb = container.querySelector('.timeline-thumb');
         const timelineHoverTime = container.querySelector('.timeline-hover-time');
+        const unmuteBadge = container.querySelector('.unmute-badge');
 
         let isDraggingTimeline = false;
         let lastVolume = 1;
@@ -366,6 +367,11 @@
                     volumeIcon.textContent = 'volume_up';
                 }
             }
+
+            if (unmuteBadge && !video.muted && clamped > 0) {
+                unmuteBadge.style.opacity = '0';
+                setTimeout(() => { unmuteBadge.style.display = 'none'; }, 250);
+            }
         }
 
         function toggleMute() {
@@ -512,8 +518,36 @@
         container.addEventListener('keydown', handleKey);
         document.addEventListener('keydown', handleKey);
 
-        // Initial setup
-        setVolume(1);
+        if (unmuteBadge) {
+            unmuteBadge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                video.muted = false;
+                setVolume(1);
+            });
+        }
+
+        // Default to big screen-filling mode
+        setExpanded(true);
+
+        // Autoplay handling
+        if (video.hasAttribute('autoplay') || video.autoplay) {
+            video.muted = true;
+            video.defaultMuted = true;
+            setVolume(0);
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    updatePlayState();
+                }).catch(() => {
+                    // Autoplay with muted fallback
+                    video.muted = true;
+                    video.play().catch(() => {});
+                });
+            }
+        } else {
+            setVolume(1);
+        }
+
         updateProgress();
     }
 
