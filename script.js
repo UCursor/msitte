@@ -140,6 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'Skills'
         },
         {
+            title: 'msitte Beta Program & Tutorial',
+            desc: 'Join the free beta program, test msitte, provide feedback, and watch the quick tutorial',
+            displayUrl: 'msitte.pages.dev/beta',
+            url: '/beta',
+            category: 'Beta'
+        },
+        {
             title: 'Documentation: Overview & Initiation',
             desc: 'Guide to msitte / laucn, anti-cliche guardrails, and the $initiation command',
             displayUrl: 'msitte.pages.dev/docs',

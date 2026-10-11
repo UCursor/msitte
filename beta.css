@@ -1,0 +1,291 @@
+/* msitte Beta Page Styles - Matches msitte.pages.dev/beta design */
+
+:root {
+    --beta-bg: #6176FF;
+    --beta-text: #FFFFFF;
+    --beta-font-mono: 'Google Sans Code', 'Consolas', 'Courier New', monospace;
+    --beta-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+    background-color: var(--beta-bg);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body.beta-body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: 100%;
+    background-color: var(--beta-bg);
+    color: var(--beta-text);
+    font-family: var(--beta-font-mono);
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Background Wavy Ribbons Overlay */
+.beta-waves-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/beta_waves.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Header & Navigation */
+.beta-header {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding-top: 0.25rem;
+}
+
+.beta-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.betaLogoLink {
+    position: static;
+    transform: none;
+    display: flex;
+    align-items: center;
+    opacity: 0.95;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.betaLogoLink:hover {
+    opacity: 1;
+    transform: scale(1.06);
+}
+
+.beta-nav-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.beta-nav-badge {
+    font-family: var(--beta-font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-align: center;
+    user-select: none;
+}
+
+.betaMidNav {
+    display: flex;
+    align-items: center;
+    gap: 1.35rem;
+    font-family: var(--beta-font-sans);
+}
+
+.betaNavLink {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.betaNavLink:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.betaSearchBtn {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    backdrop-filter: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.betaSearchBtn:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.betaSearchBtn kbd {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 0.72rem;
+    margin-left: 6px;
+}
+
+/* Main Container */
+.beta-main {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1.25rem 1.5rem 0 1.5rem;
+    box-sizing: border-box;
+}
+
+.beta-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Hero Typography - Exact Monospace Layout */
+.beta-text-hero {
+    margin-bottom: 1.25rem;
+    text-align: left;
+}
+
+.beta-title {
+    font-family: var(--beta-font-mono);
+    font-size: clamp(1.85rem, 4vw, 3.1rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.45rem 0;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.beta-subtitle {
+    font-family: var(--beta-font-mono);
+    font-size: clamp(1.05rem, 2.2vw, 1.65rem);
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0 0 0.65rem 0;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+.desktop-br {
+    display: inline;
+}
+
+.beta-tutorial-text {
+    font-family: var(--beta-font-mono);
+    font-size: clamp(0.92rem, 1.5vw, 1.15rem);
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+    opacity: 0.95;
+}
+
+/* White Video Card Container */
+.beta-video-card {
+    background: #ffffff;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    min-height: 290px;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* HTML5 Video Element */
+.tutorial-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 20px 20px 0 0;
+    background: #000000;
+}
+
+/* Video Placeholder ("a video") */
+.video-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    background: #ffffff;
+    user-select: none;
+}
+
+.video-placeholder-text {
+    font-family: var(--beta-font-mono);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #000000;
+    letter-spacing: 0.02em;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .beta-navbar {
+        flex-direction: column;
+        gap: 0.65rem;
+        padding: 0.65rem 1rem;
+    }
+
+    .betaLogoLink {
+        align-self: flex-start;
+    }
+
+    .beta-nav-center {
+        width: 100%;
+    }
+
+    .beta-nav-badge {
+        font-size: 1.05rem;
+    }
+
+    .betaMidNav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .beta-main {
+        padding: 1.25rem 1rem 0 1rem;
+    }
+
+    .desktop-br {
+        display: none;
+    }
+
+    .beta-video-card {
+        min-height: 260px;
+        border-radius: 18px 18px 0 0;
+    }
+}
